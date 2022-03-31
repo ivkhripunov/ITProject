@@ -5,9 +5,8 @@
 #include <fstream>
 
 //операции над векторами
-template<class T>
-std::ostream &operator<<(std::ostream &os, const std::vector<T> &vector) {
-    for (const auto &i: vector) {
+std::ostream &operator<<(std::ostream &os, const std::vector<double> &vector) {
+    for (const double &i: vector) {
         std::cout << i << ", ";
     }
     std::cout << std::endl;
@@ -79,7 +78,7 @@ double operator*(const std::vector<double> &vector_1, const std::vector<double> 
 }
 
 //умножение на константу
-std::vector<double> operator*(const float &a, const std::vector<double> &v1) {
+std::vector<double> operator*(const double &a, const std::vector<double> &v1) {
     auto result = v1;
     result.resize(v1.size(), 0);
 
@@ -90,7 +89,7 @@ std::vector<double> operator*(const float &a, const std::vector<double> &v1) {
     return result;
 }
 
-std::vector<double> operator*(const std::vector<double> &v1, const float &a) {
+std::vector<double> operator*(const std::vector<double> &v1, const double &a) {
     auto result = v1;
     result.resize(v1.size(), 0);
 
@@ -114,7 +113,7 @@ std::vector<double> operator/(const std::vector<double> &v1, const std::vector<d
     return result;
 }
 
-std::vector<double> operator/(const std::vector<double> &v1, const float a) {
+std::vector<double> operator/(const std::vector<double> &v1, const double a) {
     auto result = v1;
     result.resize(v1.size(), 0);
 

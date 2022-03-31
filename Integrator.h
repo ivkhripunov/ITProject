@@ -7,11 +7,13 @@ const double height_max = 9000; // высота в метрах, на котор
 const double rho_max = 1.2; //плотность воздуха на высоте уровня моря
 
 double calc_rho(const double &height) {
+
     return rho_max * exp(-height / height_max);
 }
 
+
 std::vector<double> compute_heading(Rocket &rocket) {
-    auto vector_difference = rocket.get_parameters() - rocket.get_target()->get_parameters();
+    std::vector<double> vector_difference = rocket.get_target()->get_parameters() - rocket.get_parameters();
     std::vector<double> result(2);
     result[0] = vector_difference[0];
     result[1] = vector_difference[1];
@@ -22,9 +24,10 @@ std::vector<double> compute_heading(Rocket &rocket) {
 // вычисление ускорение на каждом шаге для двумерки parameters = [x, y, vx, vy]
 std::vector<double>
 compute_acceleration(Rocket &rocket, const std::vector<double> &parameters) {
-    rocket.set_heading(compute_heading(rocket));
     std::vector<double> coordinates = std::vector<double>(parameters.begin(), parameters.begin() + 1);
     std::vector<double> speed = std::vector<double>(parameters.begin() + 2, parameters.end());
+    std::vector<double> heading = compute_heading(rocket);
+    rocket.set_heading(heading);
 
     std::vector<double> acceleration_air =
             -0.5 * rocket.get_Cx_coeff() * calc_rho(coordinates[1]) * rocket.get_area() *
@@ -33,9 +36,14 @@ compute_acceleration(Rocket &rocket, const std::vector<double> &parameters) {
     std::vector<double> acceleration_g = {0, -g};
 
 
-    std::vector<double> acceleration_fuel = {0, 0};
-    rocket.get_fuel_consumption() * rocket.get_gas_outflow_speed() / rocket.get_current_mass() *
-    rocket.get_heading();
+    std::vector<double> acceleration_fuel =
+        heading * rocket.get_fuel_consumption() * rocket.get_gas_outflow_speed() / rocket.get_current_mass();
+
+    if (rocket.get_current_mass() <= rocket.get_initial_mass()) {
+        acceleration_fuel[0] = 0;
+        acceleration_fuel[1] = 0;
+    }
+
 
     return sum_of_three_vectors(acceleration_air, acceleration_fuel, acceleration_g);
 
@@ -55,6 +63,7 @@ compute_differential(Rocket &rocket, const std::vector<double> &parameters) {
     return differential;
 }
 
+// контроль столкновений с землей и целью
 bool hit_control(Rocket &rocket, bool &flag) {
     if (rocket.get_parameters()[1] < 0) flag = false;
     if (vector_length(rocket.get_parameters() - rocket.get_target()->get_parameters()) <= rocket.get_hit_radius())

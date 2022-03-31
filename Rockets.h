@@ -8,14 +8,18 @@ public:
         //test!
         set_parameters(new_parameters);
         set_target(target);
-        gas_outflow_speed = 0;
-        fuel_consumption = 0;
-        Cx_coeff = 0.5;
-        area = 0.5;
-        initial_mass = 3;
-        current_mass = 5;
-        hit_radius = 1;
+        gas_outflow_speed = 4000;
+        fuel_consumption = 10;
+        Cx_coeff = 0.4;
+        area = 0.15;
+        initial_mass = 100;
+        current_mass = 715;
+        hit_radius = 30;
 
+    }
+
+    double get_initial_mass() const {
+        return initial_mass;
     }
 
     double get_Cx_coeff() const {

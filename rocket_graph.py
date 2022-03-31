@@ -9,9 +9,9 @@ data = parameters.readlines()
 
 
 for line in data:
-    tmp_x, tmp_y = [float(i) for i in line.split()]
-    x.append(tmp_x)
-    y.append(tmp_y)
+    array = [float(i) for i in line.split()]
+    x.append(array[0])
+    y.append(array[1])
 
 parameters.close()
 

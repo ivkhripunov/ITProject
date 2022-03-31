@@ -7,7 +7,8 @@ public:
         return heading;
     }
 
-    void set_parameters(std::vector<double> &new_parameters) {
+    void set_parameters(std::vector<double> new_parameters) {
+        parameters.resize(4);
         for (auto i = 0; i < parameters.size(); ++i) {
             parameters[i] = new_parameters[i];
         }
