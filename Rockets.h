@@ -9,9 +9,9 @@ public:
         set_parameters(new_parameters);
         set_target(target);
         gas_outflow_speed = 4000;
-        fuel_consumption = 10;
+        fuel_consumption = 20;
         Cx_coeff = 0.4;
-        area = 0.15;
+        area = 0.13;
         initial_mass = 100;
         current_mass = 715;
         hit_radius = 30;
